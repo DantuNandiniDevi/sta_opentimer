@@ -1,5 +1,7 @@
 # VSD Static Time Analysis - 1
 
+# Section 1: Introduction and Agenda
+
 ## Timing Path
 
 ![image](https://user-images.githubusercontent.com/62461290/190420448-a233362a-fce2-4158-8b91-1bb541baee4d.png) <br>
@@ -106,11 +108,29 @@ Slew/Transition should cover between a minimum and maximum value. It mainly cont
 
 <b> Types of slew/transition analysis : </b>
 
-* <I> Data (max/min) </I>
+* <I> Data (max/min) : </I>
 
 ![image](https://user-images.githubusercontent.com/62461290/190467735-0c3eec71-6df3-46c5-9595-34d08bc3eda4.png) <br>
 
-* <I> Clock (max/min) </I>
+* <I> Clock (max/min) : </I>
 
 ![image](https://user-images.githubusercontent.com/62461290/190467955-2c211a54-1f08-4a78-a116-da218d337e46.png) <br>
+
+### Load Analysis
+
+Analyses the charge and discharge of the amount of load. <br>
+
+* <I> FanOut (max/min) </I> <br>
+* <I> Capacitance (max/min) </I> <br>
+
+### Clock Analysis
+
+* <I> Skew : </I> Latency difference between L1, L2, L3, L4. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190468861-b79cae1c-5f51-4728-aa3b-ca8b91b99b0d.png) <br>
+
+* <I> Pulse Width : </I> Analysis on the best possible fit for the pulse width. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190469402-ff5fc3a0-d3fa-4979-976e-40db0b754897.png) <br>
+
 
