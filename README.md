@@ -81,10 +81,36 @@ The above circuit has 4 valid timing paths. <br>
 
 ![image](https://user-images.githubusercontent.com/62461290/190438984-51a8ecc5-a45a-4987-8ea3-be1bcf47cd6e.png)<br>
 
-6. <I> recovery/removal : </I> Path between a clock of flipflop that is driving reset pin to the reset pin is called recovery/removal path. <br>
+6. <I> recovery/removal : </I> Path between clock of flipflop that is driving reset pin to the reset pin is called recovery/removal path. <br>
 
 ![image](https://user-images.githubusercontent.com/62461290/190439696-dd8d1c9a-2378-4633-8740-46456a9e12fa.png) <br>
 
 
-7. <I> 
+7. <I> data-to-data : </I> The requirement of a to arrive a particular point and ctrl to arrive at a different point. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190460805-258982bf-a65f-4618-8e0d-864ea31e4745.png)<br>
+
+`Latch is level triggered and flop is edge triggered` <br>
+
+8. <I> Latch timings : </I> it either gives time or borrows times in the circuit. <br>
+
+Flipflop borrows time from latch. <br>
+![image](https://user-images.githubusercontent.com/62461290/190462109-b07a16c3-417e-467d-897b-3314a3adbefb.png)
+
+Latch give time to the flipflop <br>
+![image](https://user-images.githubusercontent.com/62461290/190461805-737c19f3-34ec-4feb-a131-90b444e59f46.png)<br>
+
+### Slew/Transition Analysis
+
+Slew/Transition should cover between a minimum and maximum value. It mainly controls the power of the circuit.
+
+<b> Types of slew/transition analysis : </b>
+
+* <I> Data (max/min) </I>
+
+![image](https://user-images.githubusercontent.com/62461290/190467735-0c3eec71-6df3-46c5-9595-34d08bc3eda4.png) <br>
+
+* <I> Clock (max/min) </I>
+
+![image](https://user-images.githubusercontent.com/62461290/190467955-2c211a54-1f08-4a78-a116-da218d337e46.png) <br>
 
