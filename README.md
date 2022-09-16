@@ -187,3 +187,17 @@ The calculation of arrival time, require time and slack remains same.
 
 # Section 3: Clk-to-q delay, library setup, hold time and jitter
 
+| &Delta;<sub>1</sub> - &Delta;<sub>2</sub> | = Skew <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190689424-cd87624c-72ef-449c-b1d7-3c66395895da.png) <br>
+
+Mux level implementation of capture flop. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190690335-38470d16-a3c2-4caf-ad5b-4b64a3ba1ebf.png) <br>
+
+Transistor level implementation. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190690443-2bcedb68-9edd-4d72-b42d-b8c5c92571ba.png)
+
+** Negative Latch **
+
