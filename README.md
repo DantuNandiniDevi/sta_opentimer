@@ -35,6 +35,8 @@ The above circuit has 4 valid timing paths. <br>
 
 <b> Slack : </b> Difference between arrival time and require time <br>
 
+`Slack(S) = RAT - AAT`
+
 -> <I> Max Slack (Setup Timing, Setup Slack, Setup Analysis) : </I> The difference between expected maximum require time and actual arrival time. <br>
 
 -> <I> Min Slack (Hold Timing, Hold Slack, Hold Analysis) : </I> The difference between actual arrival time and expected minimum require time. <br>
@@ -149,4 +151,21 @@ Convert the above circuit to a 'Direct Acyclic Graph (DAG)' shown below:
  
  ![image](https://user-images.githubusercontent.com/62461290/190561519-9900cb60-fac0-40dc-8793-090623fa42be.png) <br>
  
-* <I> Actual Arrival Time (AAT) </I> = time at any node where we see latest transition after first rise clock edge. <br>
+* <I> Actual Arrival Time (AAT) </I> = Time at any node where we see latest transition after first rise clock edge. (Worst if a node has multiple paths)<br>
+
+![image](https://user-images.githubusercontent.com/62461290/190631553-4fc605de-dcea-48ff-8055-2b58623d9d98.png) <br>
+
+* <I> Required Arrival Time (RAT) </I> = Time at any node where we expect latest transition within clock cycle. (Best if a node has multiple paths) <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190632660-ebadfa91-3233-445f-a4b6-ac2bb111d5f2.png) <br>
+
+AAT is expected to be less than RAT at every node for meeting design expectations. <br>
+
+* <I> Slack </I> = Required arrival time - Actual arrival time <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190657779-a50877dc-7c4c-4d95-b4a1-e913297d4707.png) <br>
+
+* <I> Path based Analysis </I>
+
+
+![image](https://user-images.githubusercontent.com/62461290/190659029-1d45c606-48ad-4966-bb22-42c2a9d3237e.png)
