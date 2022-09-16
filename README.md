@@ -165,7 +165,25 @@ AAT is expected to be less than RAT at every node for meeting design expectation
 
 ![image](https://user-images.githubusercontent.com/62461290/190657779-a50877dc-7c4c-4d95-b4a1-e913297d4707.png) <br>
 
-* <I> Path based Analysis </I>
+* <I> Path Based Analysis : </I> It takes into account the actual path followed to reach an end point. <br>
 
+* <I> Graph Based Analysis : </I> It takes into account the worst possible path to reach an end point. <br>
 
-![image](https://user-images.githubusercontent.com/62461290/190659029-1d45c606-48ad-4966-bb22-42c2a9d3237e.png)
+![image](https://user-images.githubusercontent.com/62461290/190659029-1d45c606-48ad-4966-bb22-42c2a9d3237e.png) <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190661563-4f051417-5179-4aa0-85b0-97c4cf5b40a2.png) <br>
+
+Path based analysis is more realistic than graph based analysis. <br>
+
+Pin node conventions <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190666816-3f808fdd-92d1-4b3c-b74a-98d5673bb9fb.png) <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190668545-a66d7253-9bcf-46da-945a-28bc4e6ea19b.png) <br>
+
+The calculation of arrival time, require time and slack remains same.
+
+![image](https://user-images.githubusercontent.com/62461290/190668975-88c923a1-b0c1-4fc1-bb8d-b0564dd8dfc9.png)
+
+# Section 3: Clk-to-q delay, library setup, hold time and jitter
+
