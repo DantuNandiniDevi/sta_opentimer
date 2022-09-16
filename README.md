@@ -199,5 +199,5 @@ Transistor level implementation. <br>
 
 ![image](https://user-images.githubusercontent.com/62461290/190690443-2bcedb68-9edd-4d72-b42d-b8c5c92571ba.png)
 
-** Negative Latch **
+<b> Negative Latch </b>
 
