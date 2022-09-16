@@ -134,3 +134,10 @@ Analyses the charge and discharge of the amount of load. <br>
 ![image](https://user-images.githubusercontent.com/62461290/190469402-ff5fc3a0-d3fa-4979-976e-40db0b754897.png) <br>
 
 
+# Section 2: Introduction to timing graph
+
+`Specifications: Clock Frequency(F) = 1GHz
+                Clock Period(T)=1/F=1ns`
+
+## reg2reg setup analysis
+
