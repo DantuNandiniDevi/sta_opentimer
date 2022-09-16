@@ -136,8 +136,17 @@ Analyses the charge and discharge of the amount of load. <br>
 
 # Section 2: Introduction to timing graph
 
-`Specifications: Clock Frequency(F) = 1GHz
-                Clock Period(T)=1/F=1ns`
+`Specifications: Clock Frequency(F) = 1GHz, Clock Period(T)=1/F=1ns`
+## reg2reg setup analysis - Single Clock
 
-## reg2reg setup analysis
+<b> Combination logic delay : </b>
 
+Cell delays, wire delays, signal arrival time at inputs in real scenarios are usually in ps.<br>
+
+![image](https://user-images.githubusercontent.com/62461290/190559641-3c6e7240-8499-4338-a27e-e4e723d25307.png) <br>
+
+Convert the above circuit to a 'Direct Acyclic Graph (DAG)' shown below:
+ 
+ ![image](https://user-images.githubusercontent.com/62461290/190561519-9900cb60-fac0-40dc-8793-090623fa42be.png) <br>
+ 
+* <I> Actual Arrival Time (AAT) </I> = time at any node where we see latest transition after first rise clock edge. <br>
