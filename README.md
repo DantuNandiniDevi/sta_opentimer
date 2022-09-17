@@ -195,9 +195,33 @@ Mux level implementation of capture flop. <br>
 
 ![image](https://user-images.githubusercontent.com/62461290/190690335-38470d16-a3c2-4caf-ad5b-4b64a3ba1ebf.png) <br>
 
-Transistor level implementation. <br>
+-> <b> Negative Latch </b> <br>
 
-![image](https://user-images.githubusercontent.com/62461290/190690443-2bcedb68-9edd-4d72-b42d-b8c5c92571ba.png)
+Transistor level implementation of negative latch. <br>
 
-<b> Negative Latch </b>
+![image](https://user-images.githubusercontent.com/62461290/190690443-2bcedb68-9edd-4d72-b42d-b8c5c92571ba.png) <br>
+
+When CLK is low, Tr1 turns on and input D is latched to output Q. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190841128-de7f0e7e-c45b-4ba1-bdf7-da1ac7b24087.png) <br>
+
+-> <b> Positive latch </b> <br>
+
+Transistor level implementation of positive latch. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190841212-01fe3415-aba3-4dac-b3f6-f2c36e5e12d5.png)<br>
+
+When CLK is high, Tr4 turns on and input Qm is latched to output Q. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190841270-88fd8e39-c041-4a83-b1b5-88c8f13f7d8e.png)<br>
+
+Clock signals that go to positive latch and negative latch are different, Hence the difference in names. <br>
+
+-> <b> Positive edge triggered flip-flop using master-slave configuration </b> <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190841620-7a1a30f7-ebf0-406c-8652-9ce26214dbf6.png) <br>
+
+Working for the negative level of the clock. D reaches from input of negative latch to input of positive latch. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190841716-67b9935e-b4a1-4cf4-bdda-4cf286a570ac.png) <br>
 
