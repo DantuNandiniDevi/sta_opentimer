@@ -223,5 +223,31 @@ Clock signals that go to positive latch and negative latch are different, Hence 
 
 Working for the negative level of the clock. D reaches from input of negative latch to input of positive latch. <br>
 
+When CLK is low, Tr1 and Tr3 turns ON. Hence, input D is latched to output Qm of negative latch. Inv4, Inv6 holds the Q state of slave positive latch. Also D' is ready at the output of Inv5 to propagate till Q when CLK becomes high.<br>
+
 ![image](https://user-images.githubusercontent.com/62461290/190841716-67b9935e-b4a1-4cf4-bdda-4cf286a570ac.png) <br>
+
+<I><b> Setup Time </b></I> is the time before rising edge of CLK, that input D becomes valid i.e D input has to be stable such that Qm is sent out, to Q reliably. <br>
+
+Input D takes atleast 3 inverter delays+ 1 transmission gate delay to become stable before rising edge of CLK. Atleast this much amount of time is needed by flipflop to accept the data. If the data comes in between this time frame the data will get corrupted. Therefore a certain amount of <b><I> library setup time </I></b> is needed for the data to be stable at the interiors of the flop. <br>
+
+`Setup Time  = 3 Inverter delay + 1 Transmission gate delay`
+
+Working for the positive level of the clock. D reaches from input of positive latch to output port Q. <br>
+
+When CLK  is high, TR2 and TR4 turns on. Hence input Qm is latched to output Q of negative latch through Tr4 and Inv6. Inv2, Inv3 hold the Qm state of master negative latch. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190850579-d42f3a21-8fbe-4885-afe2-e318019ad806.png) <br>
+
+<b><I> Clock to Q delay </I></b> is the time needed to propagate 'Qm' to 'Q'. (D was stable till output of Inv5). Therefore time required, to propogate is 1 transmission gate delay + 1 inverter delay. <br>
+
+`Clk-Q = 1 transmission gate delay + 1 inverter delay`
+
+Hold Time is the time for which D input remain valid after clock edge. In this case Tr1 is off after rising CLK. So, D is allowed to change or can change immediately after rise CLK edge. So Hold time is zero.
+
+`Hold Time = zero`
+
+The setup equation is <b> &Theta;+&Delta;<sub>1</sub> < T+&Delta;<sub>2</sub> - S </b> <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190851682-3e4401d9-394e-457c-a63d-6e2fd47addfa.png) <br>
 
