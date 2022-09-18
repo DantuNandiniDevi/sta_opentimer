@@ -139,7 +139,7 @@ Analyses the charge and discharge of the amount of load. <br>
 # Section 2: Introduction to timing graph
 
 `Specifications: Clock Frequency(F) = 1GHz, Clock Period(T)=1/F=1ns`
-## reg2reg setup analysis - Single Clock
+## reg2reg setup (max) analysis - Single Clock
 
 <b> Combination logic delay : </b>
 
@@ -247,7 +247,101 @@ Hold Time is the time for which D input remain valid after clock edge. In this c
 
 `Hold Time = zero`
 
-The setup equation is <b> &Theta;+&Delta;<sub>1</sub> < T+&Delta;<sub>2</sub> - S </b> <br>
+The Analysis is accounted by the following equation <b> &Theta;+&Delta;<sub>1</sub> < T+&Delta;<sub>2</sub> - S </b> <br>
 
 ![image](https://user-images.githubusercontent.com/62461290/190851682-3e4401d9-394e-457c-a63d-6e2fd47addfa.png) <br>
 
+### Generating jitter values - Eye diagram
+
+Eye diagram is given by the foundry.<br>
+
+![image](https://user-images.githubusercontent.com/62461290/190887256-debe28a7-fa98-47af-b19a-0fdef2456d95.png) <br>
+
+Count the number of edges and combine the two versions of clk to form a eye diagram. This eye diagram is the ideal eye diagram. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190887272-33e0477d-389a-4207-986f-add9ac6aeccf.png)<br>
+
+In practical scenario considering the clock network. The clock does not appear at 0ns at every flipflop. It is bound to arrive at different time. This consideration gives one step better realistic/practical eye diagram. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190887681-14f1e8ff-84ed-4098-8db1-4d73830ce733.png) <br>
+
+Another important consideration to be taken is the power rails. In the above cases it is assumed that the power is constant and ideal which is not practical. Power Supply variations cause voltage drop and ground bounce. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190887815-abac1c2a-395d-4e05-9f30-0b40feb2b00d.png) <br>
+
+This is the most realistic eye diagram one can expect. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190887833-3fde63ed-e163-42d3-ba37-1cefc821d478.png) <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190887893-49c81405-4e73-40c5-bc12-6872b3554953.png) <br>
+
+* <I> Noise Margin: </I> Amount of distortion allowed. It is considered as logic 1 or logic 0 if the received signal lies in between the respective noise margin range. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190888206-884c7e44-3466-435e-a5f0-1a004815a27f.png) <br>
+
+* <I>Window where data is reliable : </I> It is the region outside which the distortion is observed. The non-corrupted data is observed in this area. If the data is launched or captured in this window it is considered as reliable data.<br>
+
+![image](https://user-images.githubusercontent.com/62461290/190888390-57efccee-cf8a-4303-a9ef-dd8c3ad3a442.png) <br>
+
+* <b><I> Jitter : </I></b> The window where the distortion is observed is called jitter. This has to be accounted for in the clock period as well. The new clock period can be 0&plusmn;&Delta; to T&plusmn;&Delta; 
+
+![image](https://user-images.githubusercontent.com/62461290/190888576-b0fc4818-c794-411c-a8b6-f018643bab37.png) <br>
+
+Jitter has to be acccounted for in the timing reports. We model this using one more parameter called Uncertainty. <br>
+
+Example : Uncertainty = 90ps = 0.09ns <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190888874-147cbad4-7acc-4202-b8fa-e5662fd926d9.png) <br>
+
+The Analysis is now accounted by the following equation <b> &Theta;+&Delta;<sub>1</sub> < T+&Delta;<sub>2</sub> - S - SU </b> <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190888967-24e46dfa-a59e-4bcd-8a9a-1e600f88677e.png) <br>
+
+Data Arrival Time should be less than Data Required time. (Slack = Data Required Time - Data Arrival Time) <br>
+
+Slack should be zero or positive. <br>
+
+# Section 4: Textual Timing Reports and Hold Analysis
+
+<b> Setup Analysis Textual Representation </b> <br>
+
+Inputs (b1/a,b2/a etc) represents net delay and Outputs (b1/y,b2/y etc) represents cell delay. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190898233-e1989fc2-bcc8-4ec5-a62f-bf8d7959bac0.png) <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190898253-2880efe8-acda-4b1b-ad90-0d7ac20f9d1d.png) <br>
+
+Example of textual representation <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190898353-450f824c-d9c8-491e-9125-788bb8c9ca71.png) <br>
+
+## reg2reg Hold (min) analysis - Single Clock
+
+Hold analysis is mostly dependent on launch flop. It is the time required to launch the data. In this analysis only the edge of the clock is considered not the whole period. In case of setup time the whole period was considered. <br>
+
+Clock is ideal below. <br>
+![image](https://user-images.githubusercontent.com/62461290/190898518-933ae73c-5b36-40f9-9213-94258465c067.png) <br>
+
+By adding clock buffers the condition changes to  <b> &Theta;+&Delta;<sub>1</sub> > H+&Delta;<sub>2</sub> </b> <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190898649-0a3adb47-4e69-466c-9cd7-3f51e20c142f.png) <br>
+
+The uncertainity caused because of the jitter has less impact in hold analysis because we consider only the launch edge of the clk, incase of setup analysis we consider both the launch edge and capture edge of the flop hence increasing the jitter thereby increasing the uncertainity. Hence incase of hold analysis we will have a lower uncertainty value. <br>
+
+Considering Uncertainity : <b> &Theta;+&Delta;<sub>1</sub> < T+&Delta;<sub>2</sub> + SU </b> <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190899159-df695baf-1945-4cd6-bc8d-51c10c481742.png) <br>
+
+Data Arrival Time should be greater than Data Required time. (Slack = Data Arrival Time - Data Required Time) <br>
+
+Slack should be zero or positive. <br>
+
+<b> Hold Analysis Textual Representation </b> <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190899291-935a8399-82c3-4984-80a5-70e6ee66df32.png) <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190899315-b321a649-a141-48d8-9e9b-2dbc56d06ae4.png)
+
+Example of textual representation <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190899449-1cda5439-f766-4636-963d-56f03d6fcfbf.png) <br>
