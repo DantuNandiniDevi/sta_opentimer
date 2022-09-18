@@ -345,3 +345,118 @@ Slack should be zero or positive. <br>
 Example of textual representation <br>
 
 ![image](https://user-images.githubusercontent.com/62461290/190899449-1cda5439-f766-4636-963d-56f03d6fcfbf.png) <br>
+
+# Section 5 : On-chip Variation
+
+-> <b><I> Etching Process Variation </I></b> <br>
+
+ <I> Etching process effecting the behaviour of single inverter. </I> <br>
+ 
+ ![image](https://user-images.githubusercontent.com/62461290/190911055-b2effb80-8eeb-4ae7-a8f4-c544a620597e.png) <br>
+ 
+ Inverter chain: <br>
+ 
+ ![image](https://user-images.githubusercontent.com/62461290/190911089-c585bacb-15eb-4584-9def-8958f7c7c3bd.png) <br>
+ 
+ Etching process: <br>
+ 
+![image](https://user-images.githubusercontent.com/62461290/190911216-69113c65-c633-4408-b1c0-a6c4885d0108.png) <br>
+
+This variation can be present for each and every structure. This modified W/L ratio will effect the drain current. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190911357-a7af4569-db96-46d2-9287-a2f28671ae10.png) <br>
+
+-> <b><I> Oxide Thickness Variation </I></b> <br>
+
+<I> Oxide Thickness Variation effecting the behaviour of single inverter. </I> <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190911408-be4133bc-9c53-4610-acd2-6bc67fc2cc57.png) <br>
+
+ Oxide process: oxide thickness is not constant and will persist for all the transistors. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190911473-0968d8e8-9963-414c-a9cc-9adcc681c520.png) <br>
+
+The variation in thickness directly impacts the Drain Current. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190912824-99f93937-96b9-4f26-af18-f017b434c743.png) <br>
+
+<b><I> Propagatin Delay of Inverter Cell  </b></I> <br>
+
+The inverter can be modelled as a switch with RC components. The charging and discharging of the capacitor is the output of the inverter. The charging takes place based on the current Id. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190913051-0c96d8a9-f7ec-41a5-852c-902dfaaecac4.png) <br>
+
+Output Voltage depends on the amount of current supplied to the capacitor, Which inturns becomes a function of the R and C values. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190913147-df1d8568-369c-4082-b8f6-f6df4a5034d8.png) <br>
+
+We have to get the Drain current in terms of resistance. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190913476-a050ee2b-be0c-49c3-a760-df3a0574fb5a.png) <br>
+
+<I> R of inverter cell : </I> R is not constant but varies with Id. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190913581-2bbad35f-3472-4fea-aedc-af4e62a46af4.png)
+
+Connecting all the parameters together. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190913617-37f36d75-b8c0-4efc-b353-75ce73dbecf9.png) <br>
+
+Each inverter can give different delays based on the above parameters. The inverters in the corner might deviate more because the cell they are connected to on the other end might have a significant impact on these cells. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190913710-67b201dd-e3ab-4822-b1d8-640b0ad7306c.png) <br>
+
+Graphically plotting these variations in inverter. <br>
+
+Combining these variations together give a factor called on-chip derates. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190913961-29f218ca-3a86-4c87-99c3-3a971c405b08.png) <br>
+
+# Section 6: OCV timing and pessimism removal
+
+-> <b><I> OCV for Setup analysis </I></b>
+
+![image](https://user-images.githubusercontent.com/62461290/190919502-519015cf-38f2-4138-98ab-ddbf266e4425.png) <br>
+
+OCV can be compensated in 4 different ways. <br>
+
+1. DRT &uarr; DAT &uarr; <br>
+2. DRT &uarr; DAT &darr; <br>
+3. DRT &darr; DAT &uarr; <br>
+4. DRT &darr; DAT &darr; <br>
+
+When DRT is reduced it is called clock pull-in. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190919605-2be34cc0-e523-4742-a8f5-fae5aa72e956.png) <br>
+
+When DAT is increased it is called clock push-out. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190919625-5fcf2c21-62d3-4ca1-9216-a3ef96837c7b.png) <br>
+
+This gives a more realistic and conservative analysis. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190919548-09848964-d48f-4bce-a2ee-5845058780e8.png) <br>
+
+Pull in DRT by 20%. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190919739-bfc92934-dc85-4c9b-ae90-abd9bb90d816.png) <br>
+
+The similar sections have to be considered which was ignored before. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190919805-2870074d-a6f7-4730-aa05-f5b291c00785.png) <br>
+
+<I> A cell cannot have 2 delay values at same instance of time. </I> <br> 
+
+Example: At a time instant the delay of cell 'b1' can be either 0.043ns or 0.0344ns. So there is an additional pessimism of |0.043ns - 0.0344ns| = 0.0086ns. We need to remove this pessimism. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190919873-19a913c0-b67b-4d2c-aa76-015f263f6fa3.png) <br>
+
+After adding pessimism to DRT we get positive slack. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190920013-794464b2-cd92-443c-8a4f-542008f0c956.png) <br>
+
+Additional pessimism has to be accounted while doing calculations. It is one of the important factor. <br>
+
+
+-> <b><I> OCV for Hold analysis </I></b>
+
