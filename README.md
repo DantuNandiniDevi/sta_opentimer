@@ -1,8 +1,8 @@
 # VSD Static Time Analysis - 1
 
-# Section 1: Introduction and Agenda
+## Section 1: Introduction and Agenda
 
-## Timing Path
+### Timing Path
 
 ![image](https://user-images.githubusercontent.com/62461290/190420448-a233362a-fce2-4158-8b91-1bb541baee4d.png) <br>
 
@@ -31,7 +31,7 @@ The above circuit has 4 valid timing paths. <br>
 
 ![image](https://user-images.githubusercontent.com/62461290/190424600-ea0e375e-e40e-4add-bc97-1babc78517cd.png) <br>
 
-### Slack 
+#### Slack 
 
 <b> Slack : </b> Difference between arrival time and require time <br>
 
@@ -62,6 +62,12 @@ The above circuit has 4 valid timing paths. <br>
 
 `Min slack = 0.2ns - 0.3ns = -0.1ns`
 
+
+### Types of Analysis
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/62461290/190921960-0119f383-1e84-4fe7-a11d-726418e5e9cf.png">
+</p>
 
 <b> Types of setup/hold analysis : </b>
 
@@ -104,7 +110,7 @@ Flipflop borrows time from latch. <br>
 Latch give time to the flipflop <br>
 ![image](https://user-images.githubusercontent.com/62461290/190461805-737c19f3-34ec-4feb-a131-90b444e59f46.png)<br>
 
-### Slew/Transition Analysis
+#### Slew/Transition Analysis
 
 Slew/Transition should cover between a minimum and maximum value. It mainly controls the power of the circuit.
 
@@ -118,14 +124,14 @@ Slew/Transition should cover between a minimum and maximum value. It mainly cont
 
 ![image](https://user-images.githubusercontent.com/62461290/190467955-2c211a54-1f08-4a78-a116-da218d337e46.png) <br>
 
-### Load Analysis
+#### Load Analysis
 
 Analyses the charge and discharge of the amount of load. <br>
 
 * <I> FanOut (max/min) </I> <br>
 * <I> Capacitance (max/min) </I> <br>
 
-### Clock Analysis
+#### Clock Analysis
 
 * <I> Skew : </I> Latency difference between L1, L2, L3, L4. <br>
 
@@ -136,10 +142,10 @@ Analyses the charge and discharge of the amount of load. <br>
 ![image](https://user-images.githubusercontent.com/62461290/190469402-ff5fc3a0-d3fa-4979-976e-40db0b754897.png) <br>
 
 
-# Section 2: Introduction to timing graph
+## Section 2: Introduction to timing graph
 
 `Specifications: Clock Frequency(F) = 1GHz, Clock Period(T)=1/F=1ns`
-## reg2reg setup (max) analysis - Single Clock
+### reg2reg setup (max) analysis - Single Clock
 
 <b> Combination logic delay : </b>
 
@@ -185,7 +191,7 @@ The calculation of arrival time, require time and slack remains same.
 
 ![image](https://user-images.githubusercontent.com/62461290/190668975-88c923a1-b0c1-4fc1-bb8d-b0564dd8dfc9.png)
 
-# Section 3: Clk-to-q delay, library setup, hold time and jitter
+## Section 3: Clk-to-q delay, library setup, hold time and jitter
 
 | &Delta;<sub>1</sub> - &Delta;<sub>2</sub> | = Skew <br>
 
@@ -251,7 +257,7 @@ The Analysis is accounted by the following equation <b> &Theta;+&Delta;<sub>1</s
 
 ![image](https://user-images.githubusercontent.com/62461290/190851682-3e4401d9-394e-457c-a63d-6e2fd47addfa.png) <br>
 
-### Generating jitter values - Eye diagram
+#### Generating jitter values - Eye diagram
 
 Eye diagram is given by the foundry.<br>
 
@@ -301,7 +307,7 @@ Data Arrival Time should be less than Data Required time. (Slack = Data Required
 
 Slack should be zero or positive. <br>
 
-# Section 4: Textual Timing Reports and Hold Analysis
+## Section 4: Textual Timing Reports and Hold Analysis
 
 <b> Setup Analysis Textual Representation </b> <br>
 
@@ -315,7 +321,7 @@ Example of textual representation <br>
 
 ![image](https://user-images.githubusercontent.com/62461290/190898353-450f824c-d9c8-491e-9125-788bb8c9ca71.png) <br>
 
-## reg2reg Hold (min) analysis - Single Clock
+### reg2reg Hold (min) analysis - Single Clock
 
 Hold analysis is mostly dependent on launch flop. It is the time required to launch the data. In this analysis only the edge of the clock is considered not the whole period. In case of setup time the whole period was considered. <br>
 
@@ -346,7 +352,7 @@ Example of textual representation <br>
 
 ![image](https://user-images.githubusercontent.com/62461290/190899449-1cda5439-f766-4636-963d-56f03d6fcfbf.png) <br>
 
-# Section 5 : On-chip Variation
+## Section 5 : On-chip Variation
 
 -> <b><I> Etching Process Variation </I></b> <br>
 
@@ -412,7 +418,7 @@ Combining these variations together give a factor called on-chip derates. <br>
 
 ![image](https://user-images.githubusercontent.com/62461290/190913961-29f218ca-3a86-4c87-99c3-3a971c405b08.png) <br>
 
-# Section 6: OCV timing and pessimism removal
+## Section 6: OCV timing and pessimism removal
 
 -> <b><I> OCV for Setup analysis </I></b>
 
@@ -459,4 +465,45 @@ Additional pessimism has to be accounted while doing calculations. It is one of 
 
 
 -> <b><I> OCV for Hold analysis </I></b>
+
+![image](https://user-images.githubusercontent.com/62461290/190921433-b1f400de-ed6c-4aa0-8ab6-9f63c31f8833.png)
+
+OCV can be compensated in 4 different ways here as well. <br>
+
+Here, When DAT is reduced it is called clock pull-in. When DRT is increased it is called clock push-out. Here we will do both pull-in and push-out to get the worst case analysis. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190921562-272bdd39-4e56-4073-8d0d-f682ef7b8996.png) <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190921579-fb056a06-3bdb-4770-b2fa-774a8e4093fd.png) <br>
+
+If hold analysis fails we cannot recover and the whole chip will fail. <br>
+
+performed push-out by 20% and pull-in by 20% together. <br>
+![image](https://user-images.githubusercontent.com/62461290/190921644-9c82d12a-7dec-40a3-a37b-336791bb3b04.png) <br>
+
+Additional pessimism has to be considered here as well. 
+
+![image](https://user-images.githubusercontent.com/62461290/190921692-225cc1b2-779b-4f09-8611-1aa4f9aab76a.png)
+
+After considering additonal pessimism. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190921740-f2d318f6-ba5d-4485-99a3-db67ccde5ed1.png) <br>
+
+## Section 7 : Conclusion
+
+- We summarized rer2reg timing analysis. The concepts we learned for reg2reg analysis can be applied to any other setup/hold analysis. <br>
+
+- While doing Slew/Transition analysis we will be using library setup and hold time. <br>
+
+- Clock analysis is highly dependent on on-chip variation and pessimism removal. <br>
+
+<br>
+
+<br>
+
+<br>
+
+# VSD Static Time Analysis - 2
+
+## Section 1: Introduction to sta-2 and opentimer tool
 
