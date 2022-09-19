@@ -845,7 +845,7 @@ Let's modify the circuit a little more and get the analysis values. <br>
 
 `my_netlist.v` and `my_netlist.timing` are modified.
 
-````
+```
 #modified my_netlist.timing
 
 clock clk 500 50
