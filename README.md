@@ -632,3 +632,125 @@ rat out 160 160 180 180
 ![image](https://user-images.githubusercontent.com/62461290/191007275-ee76c325-e57a-46c5-97c1-eeb35dac207f.png) <br>
 
 <b> Arrival Time for Input Port</b> 
+
+`at in 50 50 100 100`
+<br>
+
+<I>at</I> - Keyword understood by opentimer which says these are the arrival time constrains. <br>
+<I>in</I> -  It is the net/port name.<br>
+<I>50</I> - Early Rise Arrival time.<br>
+<I>50</I> - Early Fall Arrival time.<br>
+<I>100</I> - Late Rise Arrival time.<br>
+<I>100</I> - Late Fall Arrival time.<br>
+
+Here the delays are respect to the arrival of the edge of the clock.<br>
+
+
+<table>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/62461290/191010095-e3c26aac-ecbd-4dff-9089-3f8e89781999.png"></td>
+    <td><img src="https://user-images.githubusercontent.com/62461290/191013614-4e6abcc4-8fd8-41b5-93b6-d7caa6b99499.png"></td>
+  </tr>
+ </table>
+
+
+<table>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/62461290/191010712-09d81ffd-e8b9-4781-8b53-9a1b29e612f4.png"></td>
+    <td><img src="https://user-images.githubusercontent.com/62461290/191012731-49ce8719-d90e-47de-a475-a256e22016c5.png"></td>
+  </tr>
+ </table>
+ 
+ <br>
+ 
+ <b> Clock Slew </b>
+ 
+ `slew clk 70 50 70 50`
+ <br>
+ 
+<I>slew</I> - Keyword understood by opentimer which says these are the slew constrains. <br>
+<I>clk</I> -  It is the net/port name.<br>
+<I>70</I> - Early Rise Slew.<br>
+<I>50</I> - Early Fall Slew.<br>
+<I>70</I> - Late Rise Slew.<br>
+<I>50</I> - Late Fall Slew.<br>
+
+![image](https://user-images.githubusercontent.com/62461290/191015953-d926e227-ad46-4a7e-a014-6a269d222557.png)<br>
+
+The slew mentioned is the difference between the 80% and 20% time. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191016450-40e2387e-ecf1-4e21-9eaf-707c53b36e67.png) <br>
+
+ <b> Input Slew </b>
+ 
+ `slew in 150 100 150 100`
+ <br>
+ 
+<I>slew</I> - Keyword understood by opentimer which says these are the slew constrains. <br>
+<I>in</I> -  It is the net/port name.<br>
+<I>150</I> - Early Rise Slew.<br>
+<I>100</I> - Early Fall Slew.<br>
+<I>150</I> - Late Rise Slew.<br>
+<I>100</I> - Late Fall Slew.<br>
+
+Here the delays are respect to the arrival of the edge of the clock.<br>
+
+<table>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/62461290/191017135-9170d72c-f528-4401-b5df-dfc653e2855f.png"></td>
+    <td><img src="https://user-images.githubusercontent.com/62461290/191017262-e26150ca-ac18-462a-a91e-3762e459c185.png"></td>
+  </tr>
+ </table>
+ 
+
+<table>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/62461290/191017611-561638c5-f0cd-4ce1-934f-b10e1955309d.png"></td>
+    <td><img src="https://user-images.githubusercontent.com/62461290/191017861-e37d2d76-a04b-4457-9f32-1d5262f9d668.png"></td>
+  </tr>
+ </table>
+
+
+<b> Output Load </b> <br>
+
+`load out 40`
+
+<I> load </I> : Keyword understood by opentimer which says this the load to be considered.<br>
+<I> out </I> : It is the net/port name.<br>
+<I> 40 </I> : Specifies load is 40fF.<br>
+
+![image](https://user-images.githubusercontent.com/62461290/191019699-75d95a93-b2ce-466b-ae60-8cf222fbf6c2.png) <br>
+
+<b> Output delay constrains </b> <br>
+
+`rat out 160 160 180 180`<br>
+
+
+<I>rat</I> - Keyword understood by opentimer which says these are the output constrains. <br>
+<I>out</I> -  It is the net/port name.<br>
+<I>160</I> - Early Rise Required Arrival Time.<br>
+<I>160</I> - Early Fall Required Arrival Time.<br>
+<I>180</I> - Late Rise Required Arrival Time.<br>
+<I>180</I> - Late Fall Required Arrival Time.<br>
+
+<table>
+  <tr>
+    <td><img src="https://user-images.githubusercontent.com/62461290/191020579-1a4951b1-c918-47f2-b594-9c30d3b2b27e.png"></td>
+    <td><img src="https://user-images.githubusercontent.com/62461290/191021676-00a61c8a-ec93-4670-b0cc-9e8a30da41e3.png"></td>
+  </tr>
+ </table>
+ 
+ modified `my_netlist.timing`
+ 
+ ```
+ clock clk 1000 50
+at clk 12 45 18 72
+at in 53 34 121 125
+slew clk 70 50 70 50
+slew in 150 100 150 100
+load out 40
+rat out 160 160 180 180
+```
+
+## Section 3 : Full reg2reg analysis using OpenTimer tool
+
