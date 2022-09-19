@@ -62,11 +62,10 @@ The above circuit has 4 valid timing paths. <br>
 
 `Min slack = 0.2ns - 0.3ns = -0.1ns`
 
-
 ### Types of Analysis
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/62461290/190921960-0119f383-1e84-4fe7-a11d-726418e5e9cf.png">
+<img src="https://user-images.githubusercontent.com/62461290/190980344-a74f3bf0-1482-4a42-9ba3-78c0564f12f2.png">
 </p>
 
 <b> Types of setup/hold analysis : </b>
@@ -507,3 +506,129 @@ After considering additonal pessimism. <br>
 
 ## Section 1: Introduction to sta-2 and opentimer tool
 
+This course is a hands-on approach to do the analysis using opentimer.<br>
+
+Install all the requirements.<br>
+
+The circuit we will be working on for analysis in OpenTimer.<br>
+
+
+<b> System Requirements </b>
+
+OpenTimer is very self-contained and has very few dependencies.
+To compile OpenTimer, you need a [C++17][C++17] compiler. 
+We currently support:
+
++ GNU C++ Compiler v7.3 with -std=c++1z
++ Clang C++ Compiler v6.0 with -std=c++17
+
+In addition, you need a tcl shell interpreter:
+
++ [tclsh](https://www.tcl.tk/about/language.html) 
+(most Unix/Linux/OSX distributions already include tclsh)
+
+OpenTimer has been tested to run well on Linux distributions and MAC OSX.
+
+<b> Build through CMake </b>
+
+We use [CMake](https://cmake.org/) to manage the source and tests.
+We recommend using out-of-source build.
+
+```bash
+$ git clone https://github.com/OpenTimer/OpenTimer.git
+$ cd OpenTimer
+$ mkdir build
+$ cd build
+$ cmake ../
+$ make 
+$ make test #to test if the installation was successful.
+```
+
+After successful build, you can find binaries and libraries in the folders `bin` 
+and `lib`, respectively.
+
+The following circuit will be the circuit we will be performing analysis on. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190990640-d2d11ff1-4a4f-4784-ae3a-80c49f170592.png) <br>
+
+Open the OpenTimer Shell.<br>
+
+![image](https://user-images.githubusercontent.com/62461290/190993034-ed76d86f-9de1-4561-bce9-fb3003525c50.png) <br>
+
+## Section 2: Constraints creation commands for Opentimer
+
+<b> Clock constrains for the Clk pin </b>
+
+`clock clk 1000 50`
+<br>
+<br>
+<I>clock</I> - Keyword understood by opentimer which says these are clock contrains.<br>
+<I>clk</I> -  It is the net/port name.<br>
+<I>1000</I> - Period of the clock is 1000ps/1ns.<br>
+<I>50</I> - Represents the duty cycle of the clock, (100-50) is the duty.<br>
+Example if the above number was 30, The clock would have been low for 30% and high for 70% making the duty cycle 70%. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/190996489-c00eccf1-093d-46ff-8c5b-d002a986b92d.png)<br>
+
+<b> Arrival Time for the Clock Port </b>
+
+`at clk 0 500 0 500`
+<br>
+<br>
+<I>at</I> - Keyword understood by opentimer which says these are the arrival time constrains. <br>
+<I>clk</I> -  It is the net/port name.<br>
+<I>0</I> - Early Rise Arrival time.<br>
+<I>500</I> - Early Fall Arrival time.<br>
+<I>0</I> - Late Rise Arrival time.<br>
+<I>500</I> - Late Fall Arrival time.<br>
+
+![image](https://user-images.githubusercontent.com/62461290/190996395-6c04c817-4045-44d9-abd8-f22c7bb539be.png) <br>
+
+The above convention for at is followed for most of the constraints in the timing files. <br>
+
+Present `my_netlist.timing` file.<br>
+
+```
+clock clk 1000 50
+at clk 0 500 0 500
+at in 50 50 100 100
+slew clk 70 50 70 50
+slew in 150 100 150 100
+load out 40
+rat out 160 160 180 180
+```
+
+Modified `my_run.tcl` for the OpenTimer present format.<br>
+
+```
+set_num_threads 1
+read_celllib -max my_early.lib
+read_celllib -min my_late.lib
+read_spef blank.spef
+read_verilog my_netlist.v
+read_timing my_netlist.timing
+
+```
+
+Running the above commands in OpenTimer
+
+![image](https://user-images.githubusercontent.com/62461290/191006390-bfb5d240-ee93-4e9e-8d21-01f3dee304c3.png) <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191006629-83a52a35-eb61-4edc-9894-c3997a5337b8.png) <br>
+
+
+modified `my_netlist.timing` file. <br>
+
+```
+clock clk 1000 50
+at clk 12 45 18 72
+at in 50 50 100 100
+slew clk 70 50 70 50
+slew in 150 100 150 100
+load out 40
+rat out 160 160 180 180
+```
+
+![image](https://user-images.githubusercontent.com/62461290/191007275-ee76c325-e57a-46c5-97c1-eeb35dac207f.png) <br>
+
+<b> Arrival Time for Input Port</b> 
