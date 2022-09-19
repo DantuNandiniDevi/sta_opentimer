@@ -602,8 +602,8 @@ Modified `my_run.tcl` for the OpenTimer present format.<br>
 
 ```
 set_num_threads 1
-read_celllib -max my_early.lib
-read_celllib -min my_late.lib
+read_celllib -min my_early.lib
+read_celllib -max my_late.lib
 read_spef blank.spef
 read_verilog my_netlist.v
 read_timing my_netlist.timing
@@ -613,6 +613,9 @@ read_timing my_netlist.timing
 Running the above commands in OpenTimer
 
 ![image](https://user-images.githubusercontent.com/62461290/191006390-bfb5d240-ee93-4e9e-8d21-01f3dee304c3.png) <br>
+
+<b><I> report_at -pin f1:ck -early -rise : 0ps </I></b> <br>
+<b><I> report_at -pin f1:ck -late -fall : 500ps </I></b> <br>
 
 ![image](https://user-images.githubusercontent.com/62461290/191006629-83a52a35-eb61-4edc-9894-c3997a5337b8.png) <br>
 
@@ -628,6 +631,11 @@ slew in 150 100 150 100
 load out 40
 rat out 160 160 180 180
 ```
+
+<b><I> report_at -pin f1:ck -early -rise : 12ps </I></b> <br>
+<b><I> report_at -pin f1:ck -late -fall : 72ps </I></b> <br>
+<b><I> report_at -pin f1:ck -early -fall : 45ps </I></b> <br>
+<b><I> report_at -pin f1:ck -late -rise : 18ps </I></b> <br>
 
 ![image](https://user-images.githubusercontent.com/62461290/191007275-ee76c325-e57a-46c5-97c1-eeb35dac207f.png) <br>
 
@@ -652,7 +660,25 @@ Here the delays are respect to the arrival of the edge of the clock.<br>
     <td><img src="https://user-images.githubusercontent.com/62461290/191013614-4e6abcc4-8fd8-41b5-93b6-d7caa6b99499.png"></td>
   </tr>
  </table>
-
+ 
+<table>
+  <tr>
+    <td><b><I> report_at -pin f1:d -early -rise : 50ps </I></b></td>
+    <td><b><I> report_at -pin f1:in -early -rise : 50ps </I></b></td>
+  </tr>
+  <tr>
+    <td><b><I> report_at -pin f1:d -early -fall : 50ps </I></b></td>
+    <td><b><I> report_at -pin f1:in -early -fall : 50ps </I></b></td>
+  </tr>
+  <tr>
+    <td><b><I> report_at -pin f1:d -late -fall : 100ps </I></b></td>
+    <td><b><I> report_at -pin f1:in -late -fall : 100ps </I></b></td>
+  </tr>
+  <tr>
+    <td><b><I> report_at -pin f1:d -late -rise : 100ps </I></b></td>
+    <td><b><I> report_at -pin f1:in -late -rise : 100ps </I></b></td>
+  </tr>
+ </table>
 
 <table>
   <tr>
@@ -679,6 +705,11 @@ Here the delays are respect to the arrival of the edge of the clock.<br>
 
 The slew mentioned is the difference between the 80% and 20% time. <br>
 
+<b><I> report_slew -pin f1:ck -early -rise : 70ps </I></b> <br>
+<b><I> report_slew -pin f1:ck -early -fall : 50ps </I></b> <br>
+<b><I> report_slew -pin f1:ck -late -fall : 50ps </I></b> <br>
+<b><I> report_slew -pin f1:ck -late -rise : 70ps </I></b> <br>
+
 ![image](https://user-images.githubusercontent.com/62461290/191016450-40e2387e-ecf1-4e21-9eaf-707c53b36e67.png) <br>
 
  <b> Input Slew </b>
@@ -702,6 +733,24 @@ Here the delays are respect to the arrival of the edge of the clock.<br>
   </tr>
  </table>
  
+<table>
+  <tr>
+    <td><b><I> report_slew -pin f1:d -early -rise : 150ps </I></b></td>
+    <td><b><I> report_slew -pin f1:in -early -rise : 150ps </I></b></td>
+  </tr>
+  <tr>
+    <td><b><I> report_slew -pin f1:d -early -fall : 100ps </I></b></td>
+    <td><b><I> report_slew -pin f1:in -early -fall : 100ps </I></b></td>
+  </tr>
+  <tr>
+    <td><b><I> report_slew -pin f1:d -late -rise : 150ps </I></b></td>
+    <td><b><I> report_slew -pin f1:in -late -rise : 150ps </I></b></td>
+  </tr>
+  <tr>
+    <td><b><I> report_slew -pin f1:d -late -fall : 100ps </I></b></td>
+    <td><b><I> report_slew -pin f1:in -late -fall : 100ps </I></b></td>
+  </tr>
+ </table>
 
 <table>
   <tr>
@@ -740,7 +789,10 @@ Here the delays are respect to the arrival of the edge of the clock.<br>
   </tr>
  </table>
  
- modified `my_netlist.timing`
+ 
+## Section 3 : Full reg2reg analysis using OpenTimer tool
+
+modified `my_netlist.timing`
  
  ```
  clock clk 1000 50
@@ -752,5 +804,34 @@ load out 40
 rat out 160 160 180 180
 ```
 
-## Section 3 : Full reg2reg analysis using OpenTimer tool
+<b><I> report_slack -pin f2:d -late -rise : 617.741ps </b></I>
+
+This command always reports the worst case slack. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191057524-6d5876b2-9c18-4c67-abd1-9f0b2d786997.png) <br>
+
+<b><I> report_slack -pin f2:d -pin u6:a -late -rise : 816.704ps </b></I>
+
+![image](https://user-images.githubusercontent.com/62461290/191058051-6ccbe67f-b430-4810-b2fd-904f02376d4b.png) <br>
+
+<b><I> report_slack -pin f2:d -pin u6:b -late -rise : 756.083ps </b></I>
+
+![image](https://user-images.githubusercontent.com/62461290/191058500-f33cb3e0-519b-4c9e-af92-1a9ca5c659d2.png)<br>
+
+<b> <I> report_slack -pin f2:d -pin u5:a -late -rise : 617.741ps </b></I>
+
+![image](https://user-images.githubusercontent.com/62461290/191058597-bf18eb53-a725-4525-9720-b6f87a0b3c41.png) <br>
+
+<b> <I> report_slack -pin f2:d -pin u5:b -late -rise : 635.132ps </b></I>
+
+![image](https://user-images.githubusercontent.com/62461290/191058767-a299bf85-2232-456f-a985-7a813089e517.png) <br>
+
+
+<b><I> report_at -pin f2:d -late -rise : 392.759ps </b></I>
+
+<b><I> report_rat -pin f2:d -late -rise : 1010.5ps </b></I>
+
+![image](https://user-images.githubusercontent.com/62461290/191060080-52b835f4-dc31-4859-939a-f4aeceee0473.png)<br>
+
+Slack = RAT - AAT => Slack = (1010.5 - 392.759)ps = 617.741ps <br>
 
