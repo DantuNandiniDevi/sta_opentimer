@@ -835,3 +835,68 @@ This command always reports the worst case slack. <br>
 
 Slack = RAT - AAT => Slack = (1010.5 - 392.759)ps = 617.741ps <br>
 
+RAT = Clock period + AT (early rise) - Library setup time = (1000+12-1.5)ps =1010.5ps <br>
+
+
+Let's modify the circuit a little more and get the analysis values. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191063882-16d81b08-372e-4bf3-8bab-62eff9aea642.png) <br>
+
+
+`my_netlist.v` and `my_netlist.timing` are modified.
+
+````
+#modified my_netlist.timing
+
+clock clk 500 50
+at clk 0 0 0 0
+at in 244 244 121 125
+slew clk 70 50 70 50
+slew in 150 100 150 100
+load out 40
+rat out 63 63 180 180
+```
+
+<b><I> report_slack -pin f2:d -pin u5:b -late -rise : -48.4449ps </b></I> <br>
+<b><I> report_slack -pin f2:d -pin u5:a -late -rise : -65.8357ps </b></I> <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191066729-98fe8691-4c31-4aa4-869b-9b8322ee5b43.png)
+
+<b><I> report_at -pin f2:d -late -rise : 613.328ps </b></I> <br>
+<b><I> report_rat -pin f2:d -late -rise : 547.492ps </b></I> <br>
+
+Slack = RAT-AAT = 547.492-613.328 = -65.836ps <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191068376-d10fecb4-8a6d-4976-91b8-072dffa9d8c0.png) <br>
+
+
+<b><I> report_at -pin f2:ck -early -rise : 48.9922ps </b></I> <br>
+<b><I> report_at -pin u9:o -early -rise : 48.9922ps </b></I> <br>
+<b><I> report_at -pin u9:o -late -rise : 76.4714ps </b></I> <br>
+
+CPPR = Late_rise - Early_rise = 76.4714 - 48.9922 = 27.4792ps <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191068454-c14dfd08-6586-4077-84d0-2d5adbdd1506.png) <br>
+
+Required Time = clk_period+early_clk_arrival+pessimism-lib_setup_time <br>
+              = (500+48.9922+27.4792-1.5)ps = 574.971436 (According to video)<br>
+              
+In the present opentimer pessimism is not being considered hence RAT value is given as 547.492ps. <br>
+
+If we modify U5 we might be able to fix the slack violation.<br>
+
+swapping nand4 with nand2.<br>
+
+<b><I>repower_gate u5 my_nand2_xsize1 <b></I><br>
+
+![image](https://user-images.githubusercontent.com/62461290/191070993-acffc646-ab6c-4f04-8617-66fe8d95a493.png)<br>
+
+
+<b><I> report_slack -pin f2:d -late -rise : 72.506 <b></I>
+
+The negative slack became postive.<br>
+
+![image](https://user-images.githubusercontent.com/62461290/191071697-2b38641b-a410-49df-91d9-6d883e24d6b6.png) <br>
+
+## Section 4 : Interface analysis
+
