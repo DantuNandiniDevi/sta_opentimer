@@ -887,7 +887,7 @@ If we modify U5 we might be able to fix the slack violation.<br>
 
 swapping nand4 with nand2.<br>
 
-<b><I>repower_gate u5 my_nand2_xsize1 <b></I><br>
+<b><I>repower_gate u5 my_nand2_xsize1 </b></I><br>
 
 ![image](https://user-images.githubusercontent.com/62461290/191070993-acffc646-ab6c-4f04-8617-66fe8d95a493.png)<br>
 
