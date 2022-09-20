@@ -892,7 +892,7 @@ swapping nand4 with nand2.<br>
 ![image](https://user-images.githubusercontent.com/62461290/191070993-acffc646-ab6c-4f04-8617-66fe8d95a493.png)<br>
 
 
-<b><I> report_slack -pin f2:d -late -rise : 72.506 <b></I>
+<b><I> report_slack -pin f2:d -late -rise : 72.506 </b></I>
 
 The negative slack became postive.<br>
 
@@ -912,7 +912,7 @@ One way of taking care of it is by modelling the external driver using flipflops
 
 ![image](https://user-images.githubusercontent.com/62461290/191185624-12f9cf58-5e54-41b4-ae12-64bd7eb054b3.png) <br>
 
-<B> There are five cases: </B> <br>
+<b> There are five cases: </b> <br>
 
 <b> <I> Case 1 : </I> c2q and combinational delay for input is known </b> <br>
 
