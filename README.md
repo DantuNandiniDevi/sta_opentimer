@@ -900,3 +900,73 @@ The negative slack became postive.<br>
 
 ## Section 4 : Interface analysis
 
+The input tht comes from the external world need to be modelled and the timing information has to be taken care of. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191184513-34348a58-02bc-453e-9e73-1768a77530fc.png) <br>
+
+You can add a external driver to take care of the setup and hold delays.<br>
+
+![image](https://user-images.githubusercontent.com/62461290/191184794-9034a8b1-0db8-472e-b150-333a419e7d98.png)
+
+One way of taking care of it is by modelling the external driver using flipflops. It is called as virtual flop. Both inputs and outputs needs to be modelled. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191185624-12f9cf58-5e54-41b4-ae12-64bd7eb054b3.png) <br>
+
+<B> There are five cases: </B> <br>
+
+<b> <I> Case 1 : </I> c2q and combinational delay for input is known </b> <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191189382-2ea481f9-3bbf-4517-b56a-af082abf33a2.png)<br>
+
+For Setup, lets take c2q = 30ps, combo delta = 500ps, total = 530ps. <br>
+For Hold, lets take c2q = 30pw, combo delay = 200ps, total = 230ps.<br>
+
+Only after 530ps the internal siganl can change. <br>
+Only after 230ps we can send the data. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191190280-77a7e3ea-c482-4743-959f-4bf8e384baca.png) <br>
+
+Modified `my_netlist.timing`. `my_netlist.v` is also modified. <br>
+
+```
+clock clk 1000 50
+at clk 0 0 0 0
+at in 230 230 530 530
+slew clk 70 50 70 50
+slew in 150 100 150 100
+load out 40
+rat out 170 170 470 470
+```
+
+<b><I> report_slack -pin f1:d -late -rise : -1.52295 </b></I> <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191192545-a852e8e1-6897-4b33-8180-cb331df66259.png) <br>
+
+<b><I> report_at -pin f1:d -late -rise : 1000.02 </b></I> <br>
+<b><I> report_at -pin in -late -rise : 530 </b></I> <br>
+<b><I> report_rat -pin f1:d -late -rise : 998.5 </b></I> <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191192894-2703a9bc-dcb3-47b1-bd1a-7272d387aed1.png) <br>
+
+To reduce the slack we reconfigure the gate and use a different gate.<br>
+
+<b><i> repower_gate i2 my_nor2_xsize1 </i></b>
+
+![image](https://user-images.githubusercontent.com/62461290/191193531-867961fb-3360-4176-97b9-d6cf44467979.png)
+
+<b><I> report_slack -pin f1:d -late -rise : 130.923 </b></I> <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191193446-37622d01-389a-41d4-b804-93b7aac703cf.png) <br>
+
+
+<I> Case 2 : </I> input 'in' stable 'x'ps before clock rising edge and 'y'ps after clocking rising edge. <br>
+
+x = 470ps y=230ps.
+
+![image](https://user-images.githubusercontent.com/62461290/191194380-1be2f8d9-bb22-4f33-aa84-cb2771dc03c5.png) <br>
+
+
+<I> Case 3 : </I> c2q and combinational delay for output is known <br>
+<I> Case 4 : </I> output 'out' stable 'x'ps before clock rising edge and 'y'ps after clock rising edge. <br>
+<I> Case 5 : </I> Data can change within a window of 'x'ps before clock edge and 'y'ps after same clock edge. <br>
+
