@@ -954,7 +954,7 @@ To reduce the slack we reconfigure the gate and use a different gate.<br>
 
 ![image](https://user-images.githubusercontent.com/62461290/191193531-867961fb-3360-4176-97b9-d6cf44467979.png)
 
-<b><I> report_slack -pin f1:d -late -rise : 130.923 </b></I> <br>
+<b><I> report_slack -pin f1:d -late -rise : 130.923ps </b></I> <br>
 
 ![image](https://user-images.githubusercontent.com/62461290/191193446-37622d01-389a-41d4-b804-93b7aac703cf.png) <br>
 
@@ -965,8 +965,126 @@ x = 470ps y=230ps.
 
 ![image](https://user-images.githubusercontent.com/62461290/191194380-1be2f8d9-bb22-4f33-aa84-cb2771dc03c5.png) <br>
 
+<b><I> report_at -pin i1:a -late -rise : 530ps </b></I> <br>
+<b><I> report_at -pin i1:a -early -rise : 230ps </b></I> <br>
+<b><I> report_slack -pin f1:d -early -rise : 389.759ps </b></I> <br>
+<b><I> report_at -pin f1:d -early -rise : 393.259ps </b></I> <br>
+<b><I> report_rat -pin f1:d -early -rise : 3.5ps </b></I> <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191519419-21aa338b-473a-4a2d-8400-fc1c334ab29b.png)<br>
 
 <I> Case 3 : </I> c2q and combinational delay for output is known <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191522302-bc9b45c9-0622-456b-8b3b-16b9273fb973.png) <br>
+
+For Setup : setup_time = 1.5ps, combo delay = 500ps, Total = 501.5ps.<br>
+For Hold : hold_time = 3.5ps, combo delay = 200ps, Total = 196.5ps.<br>
+
+Standard SDC Constraints: Set output delay as 501.5ps max.<br>
+Standard SDC Constraints: Set output delay as -196.5ps min.<br>
+
+For opentimer, RAT = clock period - output delay = 1ns - 501.5ps = 498.5ps <br>
+
+You can set it using rat in timing file. late rise and late fall values will be 498.5ps and early rise early late will be 196.5ps. <br>
+
+`rat out 196.5 196.5 498.5 498.5` this should be modified in timing file.<br>
+
+There is a small amount of delay added to make sure the delay appears. If it is only a wire the delay will essentially be zero.
+
+![image](https://user-images.githubusercontent.com/62461290/191533887-317b30d9-853e-4242-99e5-1378e4b33caf.png)<br>
+
+<b><I> report_slack -pin out -early -rise : 307.623ps </b></I> <br>
+<b><I> report_slack -pin out -early -rise : -72.6712ps </b></I> <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191535172-0bcd26de-4e7b-4b14-9596-6c1931cbcc1d.png) <br>
+
+To reduce the negative hold violation we will add some extra delay/gates in the output path of the circuit.<br>
+
+```
+#Script to add a new cell
+insert_gate newbox my_inv_xsize1
+insert_net newnet
+disconnect_pin o2:o
+connect_pin newbox:o out
+connect_pin o2:o  newnet
+connect_pin newbox:a newnet
+```
+
+<b><I> report_slack -pin out -early -rise : 22.6442ps </b></I> <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191536236-b901e1c4-4b01-4d63-9988-7f21a56409f2.png) <br>
+
+But we added a single inverter hence the o/p is inverted now. We can add another inverter to maintain the functionality.
+
 <I> Case 4 : </I> output 'out' stable 'x'ps before clock rising edge and 'y'ps after clock rising edge. <br>
+
+x = 470ps y = 170ps
+
+![image](https://user-images.githubusercontent.com/62461290/191536949-90ec28fa-d85a-43a2-9bc3-724be9c4249d.png) <br>
+
+Standard SDC Constraints: Set output delay as 470ps max.<br>
+
+For opentimer, RAT = clock period - output delay = 1ns - 470ps = 530ps <br>
+
+`rat out 170 170 530 530` this should be modified in timing file.<br>
+
 <I> Case 5 : </I> Data can change within a window of 'x'ps before clock edge and 'y'ps after same clock edge. <br>
 
+x = 470ps y = 120ps <br>
+
+ ![image](https://user-images.githubusercontent.com/62461290/191563642-eca5fbe9-4fca-4ff7-bd00-04e349bbca78.png) <br>
+ 
+Setup Analysis Standard SDC constraints : Generate clock; MCP of "0" ; set  output delay as -120ps max.<br>
+ 
+ ![image](https://user-images.githubusercontent.com/62461290/191564539-b45a12d4-cf7f-4a47-b71f-20a272f62ee6.png)<br>
+
+<b><I> report_at -pin out -late -rise : 267.349ps </b></I> <br>
+<b><I> report_at -pin clk_out -early -rise : 416.853ps </b></I> <br>
+<b><I> report_at -pin clk -early -rise : 120ps </b></I> <br>
+<b><I> report_at -pin gen_ck1:a -early -rise : 168.992ps </b></I> <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191570042-9c8c37b0-661e-4048-93fd-619a06797e18.png)<br>
+
+Arrival time=267.35ps  Required time=416.85ps <br> Required time > Arrival time, hence Slack is positive. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191570628-eeb165e4-7dfc-41fc-acf2-43a776188d35.png) <br>
+
+Hold Analysis Standard SDC constraints : Generate clock; MCP hold of '-1'; Set output delay as +470ps max <br> 
+
+<b><I> report_at -pin out -early -rise : 172.821ps </b></I> <br>
+<b><I> report_at -pin clk_out -late -rise : 18.1624ps </b></I> <br>
+<b><I> report_at -pin clk -late -rise : -470ps </b></I> <br>
+
+
+![image](https://user-images.githubusercontent.com/62461290/191581823-489d3315-6445-4f38-85c6-0186b76cc0f7.png)<br>
+
+Arrival time=172.82ps  Required time=18.16ps <br> Required time < Arrival time, hence Slack is positive. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191582247-c63cf3b0-3146-4de6-95ba-5b1aaa25597b.png)
+
+
+# Reference
+
+- https://www.udemy.com/course/vlsi-academy-sta-checks/
+
+- https://www.udemy.com/course/vlsi-academy-sta-checks-2/
+
+- https://github.com/OpenTimer/OpenTimer
+
+# Author
+- Dantu Nandini Devi
+
+# Contributors
+- Dantu Nandini Devi </br>
+- Kunal Ghosh </br>
+
+# Acknowledgement
+- Kunal Ghosh, VSD Corp. Pvt. Ltd. </br>
+- Nanditha Rao, Professor, IIITB </br>
+- Madhav Rao, Professor, IIITB </br>
+
+# Contact Information
+- Dantu Nandini Devi, MS by Research Student, IIITB, nandini.dantu@gmail.com </br>
+- Kunal Ghosh, Director, VSD Corp. Pvt. Ltd. kunalghosh@gmail.com </br>
+- Nanditha Rao, nanditha.rao@iiitb.ac.in </br>
+- Madhav Rao, mr@iiitb.ac.in </br>
