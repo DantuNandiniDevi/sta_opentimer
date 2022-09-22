@@ -1055,12 +1055,65 @@ Hold Analysis Standard SDC constraints : Generate clock; MCP hold of '-1'; Set o
 <b><I> report_at -pin clk_out -late -rise : 18.1624ps </b></I> <br>
 <b><I> report_at -pin clk -late -rise : -470ps </b></I> <br>
 
-
 ![image](https://user-images.githubusercontent.com/62461290/191581823-489d3315-6445-4f38-85c6-0186b76cc0f7.png)<br>
 
 Arrival time=172.82ps  Required time=18.16ps <br> Required time < Arrival time, hence Slack is positive. <br>
 
 ![image](https://user-images.githubusercontent.com/62461290/191582247-c63cf3b0-3146-4de6-95ba-5b1aaa25597b.png)
+
+## Section 5 : Clock Gating Analysis
+
+Why clock gating is required ? <br>
+
+Modified circuit: <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191676611-f31995be-688d-488d-9dfa-4fad7c7e6c5b.png) <br>
+
+When Enable is 1 din is fed to the register bank.<br>
+
+![image](https://user-images.githubusercontent.com/62461290/191676796-07f4590e-1b37-4fe4-86c0-2dbd84dfe110.png) <br>
+
+When Enable is 0 previous output of the register bank is fed to the input of the register bank.<br>
+
+![image](https://user-images.githubusercontent.com/62461290/191677215-69ce9236-914b-4741-8651-c9006be2ff53.png) <br>
+
+In The above circuit when enable is 0 , at every clock cycle the output of register bank is refreshed into flipflop. This process consumes power. The mux, flipflops and the clock path buffers all of them consume power for no benifit. Hence clock gating is implemented to reduce the unnecessary power consumption. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191677896-a170e90f-74b6-48b5-8575-f07ceff7987c.png) <br>
+
+To reduce this delay we add an and gate to the clk line. When en is 1 the clk is passsed to the register bank and otherwise its blocked from the register bank.<br>
+
+![image](https://user-images.githubusercontent.com/62461290/191680490-abcdd071-fd39-4147-be01-45d543a16e9b.png)<br>
+
+![image](https://user-images.githubusercontent.com/62461290/191680583-f7086e59-b723-43dc-ada5-b5ff48af3317.png)<br>
+
+The clock signal given to the register bank cg1/o is not correct because we have to maintain the clock period as it is for the setup/hold analysis. To accomodate this we regulate the enable signal. We make sure that the enable signal is high just before the positive edge of clock and low after sometime with respect to negative edge of clock. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191682322-c50aaebc-91a1-421f-a4ea-664bc9d36a42.png) <br>
+
+<I> Setup Analysis. </I> <br>
+
+<b><i> report_at -pin cd1_1:a -late -rise : 361.704ps </i></b> <br>
+<b><i> report_at -pin cd1_1:b -early -rise : 42.7482ps </i></b> <br>
+
+Slack = 1000ps + 42.7482ps - 361.704ps = 681.04ps <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191698783-e50c4e78-d3f2-417f-bc5e-cfb37cacb4e4.png) <br>
+
+<I> Hold Analysis. </I> <br>
+
+<b><i> report_at -pin cd1_1:a -early -rise : 87.6132ps </i></b> <br>
+<b><i> report_at -pin cd1_1:b -late -rise : 67.1054ps </i></b> <br>
+
+Slack = 87.6132ps - (500ps + 67.1054ps) = -479.49ps <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191700964-d92656e5-b945-450e-9903-316763df36a6.png) <br>
+
+Using and gate gives a active high clock gating, Using or gate gives a active low clock gating. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/191701574-7c7c2111-552b-4083-a8ac-69cd86b06f01.png)<br>
+
+![image](https://user-images.githubusercontent.com/62461290/191701872-d8ca3013-b9b2-4db3-a737-d352a827b610.png)<br>
 
 
 # Reference
