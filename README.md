@@ -1109,12 +1109,39 @@ Slack = 87.6132ps - (500ps + 67.1054ps) = -479.49ps <br>
 
 ![image](https://user-images.githubusercontent.com/62461290/191700964-d92656e5-b945-450e-9903-316763df36a6.png) <br>
 
-Using and gate gives a active high clock gating, Using or gate gives a active low clock gating. <br>
+Using `and gate` gives a active high clock gating, Using `or gate` gives a active low clock gating. <br>
 
 ![image](https://user-images.githubusercontent.com/62461290/191701574-7c7c2111-552b-4083-a8ac-69cd86b06f01.png)<br>
 
 ![image](https://user-images.githubusercontent.com/62461290/191701872-d8ca3013-b9b2-4db3-a737-d352a827b610.png)<br>
 
+The improper enable signal can cause a false gating. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/194464588-b17b91d7-f919-4ffc-9aaa-cdc5e3ae2a46.png) <br>
+
+This has to be resolved, The best way to resolve this is to add a latch before the clock gating gate. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/194464817-86047d2d-42f3-4ed9-bb1a-3476019f0c4a.png) <br>
+
+![image](https://user-images.githubusercontent.com/62461290/194465484-e924861c-88c2-4d7f-be5b-652aa5f9c90a.png) <br>
+
+We make the clock gating circuit as a separate ip to avoid gliches that might occur during routing, It is called as integrated clock gating cell (ICG).
+
+![image](https://user-images.githubusercontent.com/62461290/194465704-a39dc8f3-4f09-49de-91af-feba95862c15.png) <br>
+
+![image](https://user-images.githubusercontent.com/62461290/194465779-03dbe491-6f8f-4280-b141-b5f78a119070.png) <br>
+
+We need the `ICG.lib` to use this ip. <br>
+
+![image](https://user-images.githubusercontent.com/62461290/194466045-30a95015-1fb1-4c4b-b567-832789723053.png) <br>
+
+![image](https://user-images.githubusercontent.com/62461290/194466620-e8a77855-e2b4-4614-b981-753184c66d0e.png) <br>
+
+![image](https://user-images.githubusercontent.com/62461290/194466736-aca480df-cfa1-4d21-835f-16e4f9adac4e.png) <br>
+
+## Section 6: Asynchronous and data checks
+
+## Section 7: Latch timing and load/slew analysis
 
 # Reference
 
